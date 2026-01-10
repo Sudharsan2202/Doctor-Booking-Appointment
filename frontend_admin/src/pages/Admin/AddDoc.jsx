@@ -58,8 +58,8 @@ const AddDoc = () => {
           <div>
               <p>Speciality</p>
               <select name="" id=""></select>
-              <option value=""></option>
-              <option value=""></option>
+              <option value="hi"></option>
+              <option value="si"></option>
               <option value=""></option>
               <option value=""></option>
               <option value=""></option>
