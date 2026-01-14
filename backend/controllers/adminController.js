@@ -2,11 +2,16 @@ import { v2 as cloudinary } from 'cloudinary'
 import bcrypt from 'bcrypt'
 import doctorModel from '../models/doctorModel.js'
 import validator from 'validator'
+import jwt from 'jsonwebtoken'
 
 const addDoctor = async (req, res) => {
     try {
+       
+        console.log("FILE:", req.file);
+console.log("BODY:", req.body);
+
         const { name, email, password, speciality, degree, experience, about, fees, address } = req.body
-        const imageFile = req.file
+        const imageFile = req.file.path
 
         // Checking for all data to add doctor
         if (!name || !email || !password || !speciality || !degree || !experience || !about || !fees || !address) {
@@ -19,7 +24,7 @@ const addDoctor = async (req, res) => {
         }
 
         // Validating strong password
-        if (password.length < 8) {
+        if (password.length < 6) {
             return res.json({ success: false, message: "Please enter a strong password" })
         }
 
@@ -28,8 +33,12 @@ const addDoctor = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt)
 
         // Upload image to cloudinary
-        const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" })
-        const imageUrl = imageUpload.secure_url
+    const imageUpload = await cloudinary.uploader.upload(
+      imageFile.path,
+      { resource_type: "image" }
+    );
+
+    const imageUrl = imageUpload.secure_url;
 
         const doctorData = {
             name,
