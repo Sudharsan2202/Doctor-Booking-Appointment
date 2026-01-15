@@ -54,19 +54,25 @@ const AddDoc = () => {
 })
 
 
-     await axios.post(
+    const { data }= await axios.post(
   backendUrl + '/api/admin/add-doctor',
   formData,
   {
-    headers: {
-      Authorization: `Bearer ${aToken}`
-    }
-  }
+    headers: {aToken}}
 )
 
       if (data.success) {
         toast.success(data.message)
         console.log(data)
+        setDocImg(false)
+        setName('')
+        setPassword('')
+        setEmail('')
+        setAddress1('')
+        setAddress2('')
+        setDegree('')
+        setFees('')
+        setAbout('')
       } else{
         toast.error(data.message)
         console.log(data)
@@ -74,6 +80,8 @@ const AddDoc = () => {
       
       
     } catch (error) {
+      toast.error(error.message)
+      console.log(error);
       
     }
   }
